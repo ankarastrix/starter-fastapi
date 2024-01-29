@@ -1,4 +1,4 @@
-rom fastapi import FastAPI, RedirectResponse
+from fastapi import FastAPI, RedirectResponse
 
 app = FastAPI()
 
