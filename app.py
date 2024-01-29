@@ -1,19 +1,18 @@
-from fastapi import FastAPI, HTTPException, Depends
+rom fastapi import FastAPI, RedirectResponse
 
 app = FastAPI()
 
-# Konfigurišite handler za POST rutu '/'
+# Configure handler for POST route '/'
 @app.post("/")
 async def post_root():
     return {"post": "ok"}
 
-# Konfigurišite handler za POST rutu '/{id}'
+# Configure handler for POST route '/{id}'
 @app.post("/{id}")
 async def post_with_id(id: str):
     target_url = f"https://api.klix.ba/v1/rate/{id}"
-    # Ovde možete dodati logiku preusmeravanja ili obrade zahteva prema ciljnoj adresi
+    # Here you can add logic for request redirection or processing to the target URL
 
-    # Primer preusmeravanja na ciljanu adresu
-    raise HTTPException(status_code=308, detail=target_url)
-
-# Ostatak vaših ruta i podešavanja
+    # Example of redirecting to the target URL without raising an exception
+    response = RedirectResponse(url=target_url, status_code=308)
+    return response
