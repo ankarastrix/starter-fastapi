@@ -1,10 +1,11 @@
-from fastapi import FastAPI, RedirectResponse
+from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
 
 # Configure handler for POST route '/'
-@app.post("/")
-async def post_root():
+@app.get("/")
+async def get_root():
     return {"post": "ok"}
 
 # Configure handler for POST route '/{id}'
@@ -16,3 +17,5 @@ async def post_with_id(id: str):
     # Example of redirecting to the target URL without raising an exception
     response = RedirectResponse(url=target_url, status_code=308)
     return response
+
+# Additional routes and settings
