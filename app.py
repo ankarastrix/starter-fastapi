@@ -1,35 +1,19 @@
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
-
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Depends
 
 app = FastAPI()
 
+# Konfigurišite handler za POST rutu '/'
+@app.post("/")
+async def post_root():
+    return {"post": "ok"}
 
-class Item(BaseModel):
-    item_id: int
+# Konfigurišite handler za POST rutu '/{id}'
+@app.post("/{id}")
+async def post_with_id(id: str):
+    target_url = f"https://api.klix.ba/v1/rate/{id}"
+    # Ovde možete dodati logiku preusmeravanja ili obrade zahteva prema ciljnoj adresi
 
+    # Primer preusmeravanja na ciljanu adresu
+    raise HTTPException(status_code=308, detail=target_url)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get('/favicon.ico', include_in_schema=False)
-async def favicon():
-    return FileResponse('favicon.ico')
-
-
-@app.get("/item/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
-
-
-@app.get("/items/")
-async def list_items():
-    return [{"item_id": 1, "name": "Foo"}, {"item_id": 2, "name": "Bar"}]
-
-
-@app.post("/items/")
-async def create_item(item: Item):
-    return item
+# Ostatak vaših ruta i podešavanja
